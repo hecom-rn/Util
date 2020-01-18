@@ -1,2 +1,5 @@
 .eslintrc.js
 .travis.yml
+__test__
+jest.config.js
+tsconfig.json
