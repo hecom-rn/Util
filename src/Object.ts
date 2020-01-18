@@ -23,24 +23,26 @@ export function deepJsonCopy<T>(obj: T): T {
 }
 
 /**
- * 列表转为字典。
+ * 列表转为字典。转换过程中会强制深拷贝
  * @param arr 由对象组成的列表
- * @param keyname 使用列表项的键作为字典索引键
+ * @param keyName 使用列表项的键作为字典索引键
  */
-export function listToDict<T extends {[key: string]: any}>(
+export function listToDict<T extends Node<any>>(
     arr: T[],
-    keyname: string
-): {[key: string]: T} {
-    const result: {[key: string]: T} = {};
+    keyName: string
+): Node<T> {
+    const result: Node<T> = {};
     arr.forEach(value => {
-        result[value[keyname] as string] = deepJsonCopy(value);
+        result[value[keyName] as string] = deepJsonCopy(value);
     });
     return result;
 }
 
-interface TreeNode {
-    [key: string]: any;
+interface Node<O> {
+    [key: string]: O;
 }
+
+type TreeNode = Node<any>;
 
 /**
  * 对对象进行树状结构遍历。
