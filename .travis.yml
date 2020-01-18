@@ -17,6 +17,7 @@ jobs:
     - stage: deploy
       script: yarn run build
       deploy:
+        edge: true
         provider: npm
         email: summer88123@163.com
         api_key: "$NPM_TOKEN"
