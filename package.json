@@ -3,9 +3,12 @@
   "version": "1.0.0",
   "private": false,
   "description": "Utility in Application",
-  "main": "src/index.ts",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "./node_modules/.bin/eslint . --ext .ts,.tsx"
+    "build": "tsc",
+    "test": "jest",
+    "lint": "./node_modules/.bin/eslint . --ext .ts,.tsx",
+    "patch": "npm version patch -m 'Bump version %s';git push origin master --tags"
   },
   "repository": {
     "type": "git",
@@ -17,6 +20,12 @@
     "access": "public"
   },
   "devDependencies": {
-    "eslint-plugin-automatic": "latest"
+    "@hecom/types": "^1.0.2",
+    "@types/jest": "^24.9.0",
+    "@types/react": "latest",
+    "eslint-plugin-automatic": "latest",
+    "jest": "^24.9.0",
+    "ts-jest": "^24.3.0",
+    "typescript": "^3.7.3"
   }
 }

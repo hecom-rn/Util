@@ -4,18 +4,22 @@ node_js:
 os:
  - linux
 
+cache: yarn
+
 stages:
  - test
  - name: deploy
-   if: (sender = gaoxiaosong) AND (tag =~ ^v)
+   if: tag =~ ^v
 
 jobs:
   include:
     - stage: test
     - stage: deploy
+      script: yarn run build
       deploy:
         provider: npm
-        email: gaoxiaosong06@gmail.com
+        email: summer88123@163.com
         api_key: "$NPM_TOKEN"
+        skip_cleanup: true
         on:
           tags: true
