@@ -1,3 +1,5 @@
+import _ from 'lodash'
+
 /**
  * 判断值是否为空值，包括空字符串、空数组、空对象的判断。
  * @param value 待判断的值
@@ -18,7 +20,7 @@ export function deepJsonCopy<T>(obj: T): T {
     if (!obj) {
         return obj;
     } else {
-        return JSON.parse(JSON.stringify(obj));
+        return _.cloneDeep(obj);
     }
 }
 
@@ -29,11 +31,12 @@ export function deepJsonCopy<T>(obj: T): T {
  */
 export function listToDict<T extends Node<any>>(
     arr: T[],
-    keyName: string
+    keyName: string,
+    deepCopy = true
 ): Node<T> {
     const result: Node<T> = {};
     arr.forEach(value => {
-        result[value[keyName] as string] = deepJsonCopy(value);
+        result[value[keyName] as string] = deepCopy ? deepJsonCopy(value) : value;
     });
     return result;
 }
