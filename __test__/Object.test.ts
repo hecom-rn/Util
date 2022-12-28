@@ -42,3 +42,8 @@ test('traverseTree', () => {
     Obj.traverseTree(list, consumer1, 'c');
     expect(consumer1).toHaveBeenCalledTimes(16);
 });
+
+test('deepMerge', () => {
+    const dict = Obj.deepMerge({a: [{ code: 1, name: 1 }, { code: 2, name: 2 }], b: 1}, {a: [{ code: 1, age: 1 }, { code: 2, age: 2 }], c: 1});
+    expect(dict).toEqual({ a: [{ code: 1, name: 1, age: 1 }, { code: 2, name: 2, age: 2 }], b: 1, c: 1 });
+});
