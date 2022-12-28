@@ -1,6 +1,6 @@
 {
   "name": "@hecom/util",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "private": false,
   "description": "Utility in Application",
   "main": "dist/index.js",
