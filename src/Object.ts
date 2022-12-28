@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import { mergeDeep } from 'immutable';
 
 /**
  * 判断值是否为空值，包括空字符串、空数组、空对象的判断。
@@ -70,4 +71,66 @@ export function traverseTree(
             children.forEach((child: TreeNode) => stack.push(child));
         }
     }
+}
+
+/**
+ * 以code/id作为唯一标识，去掉数组类型值里面重复的item
+*/
+function removeDuplicate(obj: any) {
+    if (obj) {
+        if (Array.isArray(obj) && obj.length > 0) {
+            let keyName: string = '';
+            if (obj[0].code) {
+                keyName = 'code';
+            } else if (obj[0].id) {
+                keyName = 'id';
+            } else {
+                return;
+            }
+            const dic = {};
+            const arr: string[] = [];
+            obj.forEach((item) => {
+                if (item[keyName]) {
+                    // @ts-ignore
+                    const cur = dic[item[keyName]];
+                    if (cur) {
+                        const newItem = mergeDeep(cur, item);
+                        removeDuplicate(newItem);
+                        // @ts-ignore
+                        dic[item[keyName]] = newItem;
+                    } else {
+                        arr.push(item[keyName]);
+                        // @ts-ignore
+                        dic[item[keyName]] = item;
+                    }
+                }
+            });
+            obj.length = 0;
+            arr.forEach((key) => {
+                // @ts-ignore
+                obj.push(dic[key]);
+            });
+        } else if (typeof obj === 'object') {
+            Object.keys(obj)?.forEach((key) => {
+                removeDuplicate(obj[key]);
+            });
+        }
+    }
+}
+
+export function deepMerge<C>(
+    collection: C,
+    ...collections: Array<Iterable<any> | Iterable<[any, any]> | {[key: string]: any}>
+): C {
+    const obj = mergeDeep(collection, ...collections);
+    /**
+     * mergeDeep对于数组，合并有问题，如下：
+     * const dict = mergeDeep({a: [{ code: 1, name: 1 }, { code: 2, name: 2 }]}, {a: [{ code: 1, age: 1 }, { code: 2, age: 2 }]});
+     * console.log(dict); // { a: [{ code: 1, name: 1 }, { code: 2, name: 2 }, { code: 1, age: 1 }, { code: 2, age: 2 }] }
+     * 实际在软件应用场景中想得到的结果是以id/code作为唯一标识:
+     * { a: [{ code: 1, name: 1, age: 1 }, { code: 2, name: 2, age: 2 }] }
+     * 所以这里做一下去重，与合并。
+      */
+    removeDuplicate(obj);
+    return obj;
 }

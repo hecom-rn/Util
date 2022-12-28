@@ -1,6 +1,6 @@
 {
   "name": "@hecom/util",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "private": false,
   "description": "Utility in Application",
   "main": "dist/index.js",
@@ -26,7 +26,8 @@
     "eslint-plugin-automatic": "latest",
     "jest": "^24.9.0",
     "ts-jest": "^24.3.0",
-    "typescript": "^3.7.3"
+    "typescript": "^3.7.3",
+    "immutable": "^4.0.0-rc.12"
   },
   "dependencies": {
     "lodash": "^4.17.21"
