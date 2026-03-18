@@ -84,6 +84,8 @@ function removeDuplicate(obj: any) {
                 keyName = 'code';
             } else if (obj[0].id) {
                 keyName = 'id';
+            } else if (obj[0].md5) {
+                keyName = 'md5';
             } else if (obj[0].name) {
                 keyName = 'name';
             } else {
